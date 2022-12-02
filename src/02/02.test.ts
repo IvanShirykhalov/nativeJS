@@ -1,24 +1,25 @@
-type AddressType = {
+export type AddressType = {
     number: number
     street: {
         title: string
     }
 }
 
-type HousesType = {
+export type HousesType = {
+    id: number
     buildedAt: number
     repaired: boolean
     address: AddressType
 }
 
-type GovernmentBuildingType = {
+export type GovernmentBuildingType = {
     type: 'FIRE-STATION' | 'HOSPITAL'
     budget: number
     staffCount: number
     address: AddressType
 }
 
-type CityType = {
+export type CityType = {
     title: string
     houses: HousesType[]
     governmentBuilding: GovernmentBuildingType[]
@@ -33,6 +34,7 @@ beforeEach(() => {
         title: 'New York',
         houses: [
             {
+                id: 1,
                 buildedAt: 2012,
                 repaired: false,
                 address: {
@@ -43,6 +45,7 @@ beforeEach(() => {
                 },
             },
             {
+                id: 2,
                 buildedAt: 2008,
                 repaired: false,
                 address: {
@@ -53,6 +56,7 @@ beforeEach(() => {
                 },
             },
             {
+                id: 3,
                 buildedAt: 2020,
                 repaired: false,
                 address: {
