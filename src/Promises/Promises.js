@@ -1,3 +1,5 @@
+import {log} from "util";
+
 const axios = {}
 const database = (id) => {
 
@@ -64,6 +66,7 @@ const newPromise1_1 = newPromise1
 
 
 import axios from "axios";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 const makeGoogleRequest = () => {
     return axios.get('https://google.com')
@@ -105,3 +108,126 @@ const analogCode = database(1)
         console.log(friend2)
         return friend2
     })
+
+
+//async await
+async function run() {
+    const user = await database(1)
+    console.log(user)
+    const friend1 = await database(user.friend)
+    console.log(friend1)
+    const friend2 = await database(friend1.friend)
+    console.log(friend2)
+}
+
+run()
+
+
+// промисификация
+function getNumber() {
+    return Promise.resolve(Math.random())
+}
+
+
+//local storage
+const repo1 = {
+    save(data) {
+        try {
+            localStorage.setItem('key', JSON.stringify((data)))
+        } catch (error) {
+            return false
+        }
+        return true
+    }
+}
+
+
+const result1 = repo.save({name: 'xxx'})
+if (result1) {
+    return console.log('saved')
+} else {
+    return console.warn('not saved')
+}
+
+//промисификация
+const repo2 = {
+    save(data) {
+        try {
+            localStorage.setItem('key', JSON.stringify((data)))
+        } catch (error) {
+            return false
+        }
+        return true
+    },
+    saveAsync(data) {
+        const promise = new Promise((resolve, reject) => {
+            try {
+                localStorage.setItem('key', JSON.stringify((data)))
+                resolve()
+            } catch (error) {
+                reject(error)
+            }
+        })
+        return promise
+    },
+    read() {
+        return new Promise((resolve, reject) => {
+            const data = localStorage.getItem('key')
+            if (!data) {
+                resolve(null)
+            } else {
+                resolve(JSON.parse(data))
+            }
+        })
+    }
+}
+
+
+const result2 = repo2.save({name: 'xxx'})
+if (result2) {
+    return console.log('saved')
+} else {
+    return console.warn('not saved')
+}
+const promise = repo2.saveAsync({name: 'yyy'})
+    .then(() => console.log('saved'))
+    .catch(() => console.log('not saved'))
+
+const run2 = async () => {
+    await repo2.saveAsync({name: 'yyy'})
+    console.log('saved')
+
+    const data = await repo2.read()
+    console.log(data)
+}
+
+
+setTimeout(() => {
+    console.log(1)
+    setTimeout(() => {
+        console.log(2)
+        setTimeout(() => {
+            console.log(3)
+        }, 1000)
+    }, 1000)
+}, 100)
+
+
+function wait(ms) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve()
+        }, ms)
+    })
+}
+
+async function run3() {
+    await wait(1000)
+    console.log(1)
+    await wait(1000)
+    console.log(2)
+    await wait(1000)
+    console.log(3)
+}
+
+run3()
