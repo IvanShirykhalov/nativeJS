@@ -95,10 +95,56 @@
     // let pr2 = pr1.then( () => console.log('Мой промис зарезолвился') );
     // pr2.then( () => console.log('Мой промис тоже зарезолвился следом за pr1'));
 
-    let pr1 = doAfter(3);
-    let pr2 = pr1.then(() => console.log('Мой промис зарезолвился'));
-    let something = pr2.then(() => console.log('Мой промис зарезолвился следом за pr1'));
+    // let pr1 = doAfter(3);
+    // let pr2 = pr1.then(() => console.log('Мой промис зарезолвился'));
+    // let something = pr2.then(() => console.log('Мой промис зарезолвился следом за pr1'));
 
 
     //11
+    // let pr1 = doAfter(3)
+    //     .then(() => console.log('Мой промис зарезолвился'))
+    //     .then(() => console.log('Мой промис зарезолвился следом за pr1'))
+
+
+    //12
+    // let callback1 = () => console.log('Мой промис зарезолвился');
+    // let callback2 = () => console.log('Мой промис тоже зарезолвился следом');
+    //
+    // let pr1 = doAfter(3);
+    // let pr2 = pr1.then(callback1);
+    // pr2.then(callback2);
+
+    //13 и 14
+    // let pr1 = doAfter(3);
+    // let pr2 = pr1.then(() => {
+    //     const data1 = 'some data'
+    //     console.log(`Мой промис зарезолвился и вернул ${data1}`)
+    //     return data1
+    // });
+    // pr2.then((data2) => {
+    //     console.log(`Мой промис тоже зарезолвился следом ${data2}`)
+    // });
+
+
+    //15
+    let pr = new Promise((resolve) => {
+        let data = {
+            cities: [{title: "Minsk"}, {title: "Kiev"}],
+            website: "it-kamasutra.com"
+        };
+        resolve(data);
+    });
+
+    pr
+        .then(data => {
+            console.log(data);
+            return data.website
+
+        })
+        .then(website => {
+            console.log(website);
+        })
+
+
+    //16
 </script>
