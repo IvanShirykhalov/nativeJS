@@ -1,0 +1,104 @@
+<meta charset="UTF-8">
+<script>
+    //1
+    // внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
+    // let myPromise = new Promise((res, rej) => {
+    //     console.log('Hello');
+    //     res()
+    // });
+    //
+    // // ниже по коду мы можем подписаться, на промис, чтобы он (промис) вызвал нашу функцию, когда он (промис) зарезолвится.
+    // // Для этого передаём в метод then колбэк-функцию)
+    // myPromise.then(() => {
+    //     console.log("myPromise зарезолвился, и я узнал об этом");
+    // })
+
+    //2
+    // let pr2 = new Promise((res, rej) => {
+    //     setTimeout(() => {
+    //         console.log('hi')
+    //         res()
+    //     }, 2000)
+    // }).then(() => {
+    //     console.log("myPromise зарезолвился, и я узнал об этом")
+    // })
+
+    //3
+    // let pr3 = new Promise((res, rej) => {
+    //     setTimeout(() => {
+    //         console.log(Math.random(0, 1))
+    //         res()
+    //     }, 2000)
+    // }).then(() => {
+    //     console.log("myPromise зарезолвился, и я узнал об этом")
+    // })
+
+
+    //4
+    // let pr4 = new Promise((res, rej) => {
+    //     setTimeout(() => {
+    //         res(Math.random(0, 1))
+    //     }, 2000)
+    // }).then((res) => {
+    //     console.log(`myPromise зарезолвился, и я узнал об этом: ${res}`)
+    //     return res
+    // }).then((res) => {
+    //     console.log(`myPromise зарезолвился, и я узнал об этом: ${res}`)
+    // })
+
+
+    //5
+    const doAfter = (s) => {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res()
+            }, s * 1000)
+        })
+    }
+
+
+    //6
+    // doAfter(5).then(() => console.log('я сработал через 5 секунд'));
+    // doAfter(3).then(() => console.log('а я сработал через 3 секунд'));
+    // doAfter(10).then(() => console.log('я сработал через 10 секунд'));
+
+
+    //7
+    // let promise3 = doAfter(3);
+    // promise3.then(() => console.log('я сработал через 3 секунд'));
+    // promise3.then(() => console.log('и я тоже следом сработал через 3 секунд'));
+    // promise3.then(() => console.log('и я'));
+
+    //8
+    // let pr8 = doAfter(3)
+    // setTimeout(() => {
+    //     pr8.then(() => {
+    //         console.log("myPromise зарезолвился, и я узнал об этом")
+    //     })
+    // }, 5000)
+    // 8 секунд
+
+
+    //9
+    // let prprpr = new Promise((res, rej) => {
+    //     let i = 0
+    //     setInterval(() => {
+    //         i++
+    //         res(1)
+    //         console.log(i)
+    //     }, 5000)
+    // })
+    //резолвится каждые 5 секунд новым значение
+
+    //10
+    // let pr1 = doAfter(3);
+    // let pr2 = pr1.then( () => console.log('Мой промис зарезолвился') );
+    // pr2.then( () => console.log('Мой промис тоже зарезолвился следом за pr1'));
+
+    let pr1 = doAfter(3);
+    let pr2 = pr1.then(() => console.log('Мой промис зарезолвился'));
+    let something = pr2.then(() => console.log('Мой промис зарезолвился следом за pr1'));
+
+
+    //11
+</script>
