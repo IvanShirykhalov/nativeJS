@@ -1,4 +1,6 @@
 <meta charset="UTF-8">
+<script src="api.js"></script>
+<script src="axios.js"></script>
 <script>
     //1
     // внутрь Promise передаем колбэк-функцию, которая собственно и есть та логика, которую промис обещает выполнить.
@@ -127,24 +129,136 @@
 
 
     //15
-    let pr = new Promise((resolve) => {
-        let data = {
-            cities: [{title: "Minsk"}, {title: "Kiev"}],
-            website: "it-kamasutra.com"
-        };
-        resolve(data);
-    });
-
-    pr
-        .then(data => {
-            console.log(data);
-            return data.website
-
-        })
-        .then(website => {
-            console.log(website);
-        })
+    // let pr = new Promise((resolve) => {
+    //     let data = {
+    //         cities: [{title: "Minsk"}, {title: "Kiev"}],
+    //         website: "it-kamasutra.com"
+    //     };
+    //     resolve(data);
+    // });
+    //
+    // pr
+    //     .then(data => {
+    //         console.log(data);
+    //         return data.website
+    //
+    //     })
+    //     .then(website => {
+    //         console.log(website);
+    //     })
 
 
     //16
+    // api.sendStudentsCountToItKamasutra(20)
+    //     .then(res => {
+    //         console.log(res.data);
+    //     });
+
+    //17
+    // let pr1 = doAfter(4); // один промис
+    // let pr2 = doAfter(7); // второй промис
+    //
+    // pr1.then( () => console.log("pr1 resolved") ); // индивидуально подписываемся на каждый
+    // pr2.then( () => console.log("pr2 resolved") );
+    //
+    // let aggregatedPromise = Promise.all([pr1, pr2]); // получаем общий промис
+    //
+    // aggregatedPromise.then( () => console.log("pr1 and pr2 resolved")); // сработает наш подписчик ТОЛЬКО когда все промисы, переданные в массиве в all будут resolved
+
+    //18
+
+    const getRandomAfter = (s) => {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                res(Math.random())
+
+            }, s * 1000)
+        })
+    }
+
+    // getRandomAfter(4).then(number => console.log(`я получил ${number} спустя 4 секунды`))
+    //
+    // let promises = [getRandomAfter(1), getRandomAfter(2), getRandomAfter(3)];
+    // let commonPromise = Promise.all(promises);
+    // commonPromise.then((res) => {
+    //     console.log(`я получил ${res[0]} спустя 1 секунду, ${res[1]} через 2 секунды и ${res[2]} через 3 секунды `)
+    // })
+
+    //19
+    // api.getVacanciesCountFromMicrosoft()
+    //     .then(res => {
+    //         console.log(res.data);
+    //     });
+    //
+    // api.getVacanciesCountFromGoogle()
+    //     .then(res => {
+    //         console.log(res.data);
+    //     });
+    //
+    // api.sendStudentsCountToItKamasutra(20)
+    //     .then(data => {
+    //         console.log(data);
+    //     });
+
+
+    // const microSoftPr = api.getVacanciesCountFromMicrosoft()
+    // // .then(res => {
+    // //     console.log(res.data);
+    // // });
+    //
+    // const googlePr = api.getVacanciesCountFromGoogle()
+    // // .then(res => {
+    // //     console.log(res.data);
+    // // });
+    //
+    // const prAll = Promise.all([microSoftPr, googlePr])
+    //     .then((res) => {
+    //
+    //         let gVacancies = res[0].data.vacancies
+    //         let msVacancies = res[1].data.vacancies
+    //
+    //         api.sendStudentsCountToItKamasutra(gVacancies + msVacancies)
+    //             .then((res) => {
+    //                 console.log(res.data);
+    //             });
+    //
+    //     })
+
+    //20
+    let pr20 = doAfter(3)
+        .then(() => {
+            console.log('pr20 разеволвился')
+            return 'РЕТУРН из pr20'
+        })
+        .then((res) => {
+            console.log(`этим зарезолвился следующий промис, а из pr20 пришло:  ${res}`)
+        })
+
+
+    //21
+    //Async, await
+
+    let getTodo = () => (dispatch) => {
+        api.getTodo()
+            .then(res => {
+                dispatch(AC(res.data))
+            })
+    }
+
+    //аналагочный код на async await
+    const getTodoAsync = () => async (dispatch) => {
+        let res = await api.getTodo()
+        dispatch(AC(res.data))
+
+    }
+
+    //обработка ошибок в async await выполянется с помощью try catch
+    const getTodoTryCatch = () => async (dispatch) => {
+        try {
+            let res = await api.getTodo()
+            dispatch(AC(res.data))
+        } catch (error) {
+            dispatch(ACError(error))
+        }
+    }
 </script>
